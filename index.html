@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jquery Giriş</title>
+</head>
+
+<body>
+    <h1 id="baslik"></h1>
+    <ul>
+        <li>Pataya</li>
+        <li>Kentau</li>
+        <li>Ankara</li>
+        <li>Gaziantep</li>
+        <li>Iğdır</li>
+        <li>Konya</li>
+        <li>Denizli</li>
+        <li>İstanbul</li>
+        <li>Bayburt</li>
+        <li>Konya</li>
+
+    </ul>
+    <h1>Rakammatik</h1>
+    <div id="rakamlar">
+        <button>0</button>
+        <button>0</button>
+        <button>0</button>
+        <button>0</button>
+        <button>0</button>
+        <button>0</button>
+
+    </div>
+
+    <p> Gizli şifreyi bilirseniz tüm içerik kaybolacaktır</p>
+
+    <script src="jquery-3.7.1.min.js"></script>
+    <script>
+        // baslık id'li elementin metnini "JQuery Öğreniyorum"yap
+        // - SAF JS ile
+        //document.getElementById("baslik").textContent = "JQuery Öğreniyorum";
+        // - JQuery ile
+        $("#baslik").text("JQuery Öğreniyorum");
+        // başlığa border ver
+        //document.getElementById("baslik").style.border = "1px solid black";
+        $("#baslik").css("border", "1px solid black");
+        // başlığın title attribute una bir değer atama
+        //document.getElementById("baslik").setAttribute("title","Bu bir başlıktır");
+        $("#baslik").attr("title", "I love JQuery");
+        // baslıktan sonra hr ekle
+        /* let hr = document.createElement("<hr>")
+        document.getElementById("baslik").after(hr); */
+        $("#baslik").after("<hr>").after("<p>asfsadas</p>");
+        // tüm şehirlerin sonuna gülücük yerleştirdir.
+        /*  document.querySelectorAll("li").forEach((li, index)=>{
+            li.textContent+=" :) - "+ index;
+         }) */
+        //$("li").each((index,el)=>console.log(el));  
+        //$("li").each((index,el)=>el.append (" :) -" + index));     
+        $("li").each(function (i) {
+            //console.log(this);
+            $(this).append(" :)");
+            $(this).prepend("(" + i + ") ");
+        });
+        //this KEYWORD ÜNE SIRAYLA ÖĞELERİN ATANMASINI İSTİYORSANIZ ARROW FUNCTİON YERİNE KLASİK FUNCTİON KULLANIN
+
+        //içinde n harfi bulunanları kırmızı yap
+        $("li").each(function () {
+            if ($(this).text().includes("u"))
+                $(this).css("color", "red");
+        });
+        //a harfi içermeyenleri arkaplan rengini sarı yapsın
+        $("li")
+            .filter((i, el) => !$(el).text().includes("a"))
+            .css("background", "yellow");
+        // tüm li öğelerinin metinlerini toptan al ve bir paragraf yerleştir / paragrafıda listenin altına yerleştir
+        $("ul").after("<p>" + $("li").text() + " </p");
+        // 7. indeksteki (0 dan başlayarak) li öğesini başa taşı (css de 8 e denk gelir)
+        //$("ul").prepend($("li:nth-child(8)"))
+        $("ul").prepend($("li").eq(7));
+        //kayan liste
+        // saniyede bir her element bir alta kaysın
+        setInterval(function () {
+            $("ul").prepend($("li").last());
+        }, 1000);
+        //ya içerenleri büyük harfe çevir
+        $("li:contains('ya')").css("text-transform", "uppercase");
+        $("button").click(function () {
+            //this.textContent ="şaka";
+            //$(this).text(Number($(this).text())+1);
+            let sayi = Number($(this).text());
+            $(this).text((sayi + 1) % 10);
+        })
+
+        // gizli şifre belirle 
+        //gizli şifre girişi yapıldığında sayfaki herşey silinsin
+        let gizli = "123210";
+        $("#rakamlar>button").click(function () {
+            let girilen = $("button").text();
+            if (girilen == gizli) {
+                $("body").html(""); //Bölüm sonu canavarı
+
+                $("html,body")
+                    .css({ "height": "100%", "margin": 0 });
+                /*$("<img/>").attr("src", "resim.jpg")
+                    .css({ "display": "block", "width": "100%", "height": "100%" })
+                    .appendTo("body"); */
+
+                $("body").css({
+                    "background": "url(resim.jpg) center",
+                    "background-size": "cover"
+                });
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
